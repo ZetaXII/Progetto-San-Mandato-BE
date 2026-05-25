@@ -76,6 +76,9 @@ public class PoiEntity {
 	@JoinTable(name = "poi_architect", joinColumns = @JoinColumn(name = "poi_id"), inverseJoinColumns = @JoinColumn(name = "architect_id"))
 	private List<ArchitectEntity> architects;
 
+	@OneToMany(mappedBy = "poi", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<SourceEntity> sources;
+
 	public PoiEntity() {
 		super();
 	}

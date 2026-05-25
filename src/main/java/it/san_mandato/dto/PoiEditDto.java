@@ -6,7 +6,7 @@ import java.util.UUID;
 import lombok.Data;
 
 @Data
-public class PoiCreateDto {
+public class PoiEditDto {
 
 	private String name;
 	private boolean isLocalized;
@@ -22,11 +22,11 @@ public class PoiCreateDto {
 
 	private List<UUID> architectIds; // lista di architetti da associare
 
-	public PoiCreateDto() {
+	public PoiEditDto() {
 		super();
 	}
 
-	public PoiCreateDto(String name, boolean isLocalized, String address, Double latitude, Double longitude,
+	public PoiEditDto(String name, boolean isLocalized, String address, Double latitude, Double longitude,
 			String constructionCentury, String areaGroup, String generalDescription, String currentStatus,
 			String bibliography, String coverImageUrl, List<UUID> architectIds) {
 		super();

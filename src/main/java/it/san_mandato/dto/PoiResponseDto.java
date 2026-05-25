@@ -1,8 +1,10 @@
 package it.san_mandato.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import it.san_mandato.entity.SourceEntity;
 import lombok.Data;
 
 @Data
@@ -20,8 +22,8 @@ public class PoiResponseDto {
 	private String currentStatus;
 	private String bibliography;
 	private String coverImageUrl;
-
-	private List<String> architects; // nomi da visualizzare
+	private List<SourceEntity> sources = new ArrayList<>();
+	private List<String> architects;
 
 	public PoiResponseDto() {
 		super();
@@ -44,6 +46,26 @@ public class PoiResponseDto {
 		this.bibliography = bibliography;
 		this.coverImageUrl = coverImageUrl;
 		this.architects = architects;
+	}
+	
+	public PoiResponseDto(UUID uuid, String name, boolean isLocalized, String address, Double latitude,
+			Double longitude, String constructionCentury, String areaGroup, String generalDescription,
+			String currentStatus, String bibliography, String coverImageUrl, List<String> architects, List<SourceEntity> sources) {
+		super();
+		this.uuid = uuid;
+		this.name = name;
+		this.isLocalized = isLocalized;
+		this.address = address;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.constructionCentury = constructionCentury;
+		this.areaGroup = areaGroup;
+		this.generalDescription = generalDescription;
+		this.currentStatus = currentStatus;
+		this.bibliography = bibliography;
+		this.coverImageUrl = coverImageUrl;
+		this.architects = architects;
+		this.sources = sources;
 	}
 
 	public UUID getUuid() {
@@ -152,6 +174,14 @@ public class PoiResponseDto {
 
 	public void setArchitects(List<String> architects) {
 		this.architects = architects;
+	}
+
+	public List<SourceEntity> getSources() {
+		return sources;
+	}
+
+	public void setSources(List<SourceEntity> sources) {
+		this.sources = sources;
 	}
 
 }

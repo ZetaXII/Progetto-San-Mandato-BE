@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.san_mandato.dto.PoiCreateDto;
+import it.san_mandato.dto.PoiEditDto;
 import it.san_mandato.dto.PoiResponseDto;
 import it.san_mandato.dto.PoiSearchDto;
 import it.san_mandato.service.PoiService;
@@ -49,13 +49,13 @@ public class PoiController {
 	// CREATE
 	@PostMapping("/create")
 	@ResponseStatus(HttpStatus.CREATED)
-	public PoiResponseDto createPoi(@RequestBody PoiCreateDto dto) {
+	public PoiResponseDto createPoi(@RequestBody PoiEditDto dto) {
 		return poiService.createPoi(dto);
 	}
 
 	// UPDATE
 	@PutMapping("/update/{uuid}")
-	public PoiResponseDto updatePoi(@PathVariable UUID uuid, @RequestBody PoiCreateDto dto) {
+	public PoiResponseDto updatePoi(@PathVariable UUID uuid, @RequestBody PoiEditDto dto) {
 		return poiService.updatePoi(uuid, dto);
 	}
 

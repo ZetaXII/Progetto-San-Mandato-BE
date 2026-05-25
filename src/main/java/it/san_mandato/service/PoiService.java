@@ -13,7 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import it.san_mandato.dto.PoiCreateDto;
+import it.san_mandato.dto.PoiEditDto;
 import it.san_mandato.dto.PoiResponseDto;
 import it.san_mandato.dto.PoiSearchDto;
 import it.san_mandato.entity.PoiEntity;
@@ -41,7 +41,7 @@ public class PoiService {
 	}
 
 	// CREATE POI da DTO
-	public PoiResponseDto createPoi(PoiCreateDto dto) {
+	public PoiResponseDto createPoi(PoiEditDto dto) {
 		PoiEntity poi = toEntity(dto, new PoiEntity());
 
 		if (poi.getUuid() == null) {
@@ -53,7 +53,7 @@ public class PoiService {
 	}
 
 	// UPDATE POI da DTO + UUID
-	public PoiResponseDto updatePoi(UUID uuid, PoiCreateDto dto) {
+	public PoiResponseDto updatePoi(UUID uuid, PoiEditDto dto) {
 		PoiEntity poi = poiRepository.findByUuid(uuid).orElseThrow(() -> new RuntimeException("POI non trovato"));
 
 		poi = toEntity(dto, poi); // sovrascrivi i campi
@@ -86,7 +86,7 @@ public class PoiService {
 
 	private static final GeometryFactory GEOMETRY_FACTORY = new GeometryFactory();
 
-	private PoiEntity toEntity(PoiCreateDto dto, PoiEntity poi) {
+	private PoiEntity toEntity(PoiEditDto dto, PoiEntity poi) {
 
 		poi.setName(dto.getName());
 		poi.setIsLocalized(dto.isLocalized());
