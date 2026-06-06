@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import it.san_mandato.dto.PoiEditDto;
 import it.san_mandato.dto.PoiResponseDto;
@@ -23,10 +24,12 @@ import it.san_mandato.specifications.PoiSpecifications;
 @Service
 public class PoiService {
 
+	private final SourceService sourceService;
 	private final PoiRepository poiRepository;
 
-	public PoiService(PoiRepository poiRepository) {
+	public PoiService(PoiRepository poiRepository, SourceService sourceService) {
 		this.poiRepository = poiRepository;
+		this.sourceService = sourceService;
 	}
 
 	// GET all POI → DTO
@@ -41,6 +44,7 @@ public class PoiService {
 	}
 
 	// CREATE POI da DTO
+	@Transactional
 	public PoiResponseDto createPoi(PoiEditDto dto) {
 		PoiEntity poi = toEntity(dto, new PoiEntity());
 
@@ -53,34 +57,35 @@ public class PoiService {
 	}
 
 	// UPDATE POI da DTO + UUID
+	@Transactional
 	public PoiResponseDto updatePoi(UUID uuid, PoiEditDto dto) {
 		PoiEntity poi = poiRepository.findByUuid(uuid).orElseThrow(() -> new RuntimeException("POI non trovato"));
 
-		poi = toEntity(dto, poi); // sovrascrivi i campi
+		poi = toEntity(dto, poi);
 		PoiEntity updated = poiRepository.save(poi);
 		return toDto(updated);
 	}
 
 	// DELETE POI by UUID
+	@Transactional
 	public void deletePoiByUuid(UUID uuid) {
 		PoiEntity poi = poiRepository.findByUuid(uuid).orElseThrow(() -> new RuntimeException("POI non trovato"));
 		poiRepository.delete(poi);
 	}
 
 	// SEARCH PAGINATA E FILTRABILE
-    public Page<PoiResponseDto> searchPoisByFields(PoiSearchDto dto) {
-        Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize());
+	public Page<PoiResponseDto> searchPoisByFields(PoiSearchDto dto) {
+		Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize());
 
-        Specification<PoiEntity> spec = Specification.where(PoiSpecifications.hasName(dto.getName()))
-                .and(PoiSpecifications.hasAreaGroup(dto.getAreaGroup()))
-                .and(PoiSpecifications.hasConstructionCentury(dto.getConstructionCentury()))
-                .and(PoiSpecifications.hasGeneralDescription(dto.getGeneralDescription()))
-                .and(PoiSpecifications.hasAddress(dto.getAddress()))
-                .and(PoiSpecifications.isLocalized(dto.getIsLocalized()));
+		Specification<PoiEntity> spec = Specification.where(PoiSpecifications.hasName(dto.getName()))
+				.and(PoiSpecifications.hasAreaGroup(dto.getAreaGroup()))
+				.and(PoiSpecifications.hasConstructionCentury(dto.getConstructionCentury()))
+				.and(PoiSpecifications.hasGeneralDescription(dto.getGeneralDescription()))
+				.and(PoiSpecifications.hasAddress(dto.getAddress()))
+				.and(PoiSpecifications.isLocalized(dto.getIsLocalized()));
 
-        return poiRepository.findAll(spec, pageable)
-                .map(this::toDto);
-    }
+		return poiRepository.findAll(spec, pageable).map(this::toDto);
+	}
 
 	// ======= METODI DI MAPPING =======
 
@@ -130,6 +135,10 @@ public class PoiService {
 		dto.setCurrentStatus(poi.getCurrentStatus());
 		dto.setBibliography(poi.getBibliography());
 		dto.setCoverImageUrl(poi.getCoverImageUrl());
+
+		if (poi.getSources() != null) {
+			dto.setSources(poi.getSources().stream().map(this.sourceService::toDto).collect(Collectors.toList()));
+		}
 
 		if (poi.getArchitects() != null && !poi.getArchitects().isEmpty()) {
 			dto.setArchitects(poi.getArchitects().stream().map(a -> a.getName()).collect(Collectors.toList()));

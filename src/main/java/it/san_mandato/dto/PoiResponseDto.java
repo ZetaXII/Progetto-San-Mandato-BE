@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import it.san_mandato.entity.SourceEntity;
 import lombok.Data;
 
 @Data
@@ -22,7 +21,7 @@ public class PoiResponseDto {
 	private String currentStatus;
 	private String bibliography;
 	private String coverImageUrl;
-	private List<SourceEntity> sources = new ArrayList<>();
+	private List<SourceResponseDto> sources = new ArrayList<>();
 	private List<String> architects;
 
 	public PoiResponseDto() {
@@ -47,10 +46,11 @@ public class PoiResponseDto {
 		this.coverImageUrl = coverImageUrl;
 		this.architects = architects;
 	}
-	
+
 	public PoiResponseDto(UUID uuid, String name, boolean isLocalized, String address, Double latitude,
 			Double longitude, String constructionCentury, String areaGroup, String generalDescription,
-			String currentStatus, String bibliography, String coverImageUrl, List<String> architects, List<SourceEntity> sources) {
+			String currentStatus, String bibliography, String coverImageUrl, List<String> architects,
+			List<SourceResponseDto> sources) {
 		super();
 		this.uuid = uuid;
 		this.name = name;
@@ -176,11 +176,11 @@ public class PoiResponseDto {
 		this.architects = architects;
 	}
 
-	public List<SourceEntity> getSources() {
+	public List<SourceResponseDto> getSources() {
 		return sources;
 	}
 
-	public void setSources(List<SourceEntity> sources) {
+	public void setSources(List<SourceResponseDto> sources) {
 		this.sources = sources;
 	}
 

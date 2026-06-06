@@ -6,6 +6,8 @@ import java.util.UUID;
 import org.hibernate.annotations.UuidGenerator;
 import org.locationtech.jts.geom.Point;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -51,6 +53,7 @@ public class PoiEntity {
 
 	private String address;
 
+	@JsonIgnore
 	@Column(columnDefinition = "geometry(Point, 4326)")
 	private Point coordinates;
 
@@ -85,8 +88,8 @@ public class PoiEntity {
 
 	public PoiEntity(Long id, UUID uuid, String coverImageUrl, String name, boolean isLocalized, String address,
 			Point coordinates, String constructionCentury, String areaGroup, String generalDescription,
-			String currentStatus, String bibliography, List<PhotoEntity> photoGallery,
-			List<ArchitectEntity> architects) {
+			String currentStatus, String bibliography, List<PhotoEntity> photoGallery, List<ArchitectEntity> architects,
+			List<SourceEntity> sources) {
 		super();
 		this.id = id;
 		this.uuid = uuid;
@@ -102,6 +105,7 @@ public class PoiEntity {
 		this.bibliography = bibliography;
 		this.photoGallery = photoGallery;
 		this.architects = architects;
+		this.sources = sources;
 	}
 
 	public Long getId() {
@@ -216,4 +220,11 @@ public class PoiEntity {
 		this.architects = architects;
 	}
 
+	public List<SourceEntity> getSources() {
+		return sources;
+	}
+
+	public void setSources(List<SourceEntity> sources) {
+		this.sources = sources;
+	}
 }
