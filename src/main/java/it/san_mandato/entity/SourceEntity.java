@@ -40,7 +40,7 @@ public class SourceEntity {
 	@Column(columnDefinition = "TEXT")
 	private String riferimento;
 
-	private Integer secolo;
+	private String secolo;
 
 	private Integer anno;
 
@@ -56,7 +56,7 @@ public class SourceEntity {
 	}
 
 	// Costruttore completo
-	public SourceEntity(Long id, UUID uuid, String titolo, SourceTypeEnum tipologia, String riferimento, Integer secolo,
+	public SourceEntity(Long id, UUID uuid, String titolo, SourceTypeEnum tipologia, String riferimento, String secolo,
 			Integer anno, String trascrizione, PoiEntity poi) {
 		this.id = id;
 		this.uuid = uuid;
@@ -111,11 +111,11 @@ public class SourceEntity {
 		this.riferimento = riferimento;
 	}
 
-	public Integer getSecolo() {
+	public String getSecolo() {
 		return secolo;
 	}
 
-	public void setSecolo(Integer secolo) {
+	public void setSecolo(String secolo) {
 		this.secolo = secolo;
 	}
 

@@ -7,7 +7,7 @@ public class SourceEditDto {
 	private String titolo;
 	private SourceTypeEnum tipologia;
 	private String riferimento;
-	private Integer secolo;
+	private String secolo;
 	private Integer anno;
 	private String trascrizione;
 
@@ -15,7 +15,7 @@ public class SourceEditDto {
 		super();
 	}
 
-	public SourceEditDto(String titolo, SourceTypeEnum tipologia, String riferimento, Integer secolo, Integer anno,
+	public SourceEditDto(String titolo, SourceTypeEnum tipologia, String riferimento, String secolo, Integer anno,
 			String trascrizione) {
 		super();
 		this.titolo = titolo;
@@ -52,11 +52,11 @@ public class SourceEditDto {
 		this.riferimento = riferimento;
 	}
 
-	public Integer getSecolo() {
+	public String getSecolo() {
 		return secolo;
 	}
 
-	public void setSecolo(Integer secolo) {
+	public void setSecolo(String secolo) {
 		this.secolo = secolo;
 	}
 

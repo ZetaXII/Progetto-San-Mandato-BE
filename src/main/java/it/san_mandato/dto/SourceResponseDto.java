@@ -10,7 +10,7 @@ public class SourceResponseDto {
 	private String titolo;
 	private SourceTypeEnum tipologia;
 	private String riferimento;
-	private Integer secolo;
+	private String secolo;
 	private Integer anno;
 	private String trascrizione;
 
@@ -49,11 +49,11 @@ public class SourceResponseDto {
 		this.riferimento = riferimento;
 	}
 
-	public Integer getSecolo() {
+	public String getSecolo() {
 		return secolo;
 	}
 
-	public void setSecolo(Integer secolo) {
+	public void setSecolo(String secolo) {
 		this.secolo = secolo;
 	}
 
